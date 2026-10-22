@@ -1,0 +1,12 @@
+services:
+  relay:
+    image: scsibug/nostr-rs-relay:latest
+    container_name: relay-libre
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./config.toml:/usr/src/app/config.toml:ro
+      - relay-data:/usr/src/app/db
+volumes:
+  relay-data:

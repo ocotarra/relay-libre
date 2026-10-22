@@ -1,0 +1,35 @@
+# Relay Libre — low-bandwidth rural relay config (nostr-rs-relay)
+[info]
+relay_url = "wss://relay.ocotarra.example"
+name = "Relay Libre"
+description = "Bilingual (EN/ES) public Nostr relay for rural and borderlands communities — Ocotarra"
+pubkey = ""
+contact = "marquezo0820@gmail.com"
+
+[options]
+reject_future_seconds = 1800
+
+[database]
+data_directory = "/usr/src/app/db"
+min_conn = 4
+max_conn = 16
+
+[network]
+port = 8080
+address = "0.0.0.0"
+
+[limits]
+messages_per_sec = 10
+max_message_length_bytes = 131072
+max_subscriptions = 20
+max_filter_elements = 400
+max_subid_length = 100
+max_event_bytes = 65536
+max_conn = 200
+
+[authorization]
+# Public read/write. Flip pubkey whitelist on for a private community relay.
+pubkey_whitelist_enabled = false
+
+[pay_to_relay]
+enabled = false
