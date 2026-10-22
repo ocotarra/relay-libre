@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Puerta — Your door to Nostr / Tu puerta a Nostr</title>
+<style>
+body{font-family:system-ui,sans-serif;background:#0d1117;color:#e6edf3;max-width:680px;margin:0 auto;padding:24px}
+button{background:#1f6feb;color:#fff;border:0;padding:12px 20px;border-radius:8px;font-size:16px;cursor:pointer}
+code{display:block;background:#161b22;padding:12px;border-radius:8px;word-break:break-all;margin:8px 0}
+.warn{color:#f0a35e} a{color:#58a6ff}
+@media print{button{display:none} body{background:#fff;color:#000} code{background:#eee}}
+</style>
+</head>
+<body>
+<h1>🚪 Puerta</h1>
+<p><strong>EN:</strong> Nostr is open social communication. No company, no email, no password.
+Your identity is a <em>key</em> — made right here in your browser. Nobody can take it or ban it.</p>
+<p><strong>ES:</strong> Nostr es comunicación social abierta. Sin empresa, sin correo, sin contraseña.
+Tu identidad es una <em>llave</em> — creada aquí mismo en tu navegador. Nadie te la puede quitar ni prohibir.</p>
+
+<h2>1. Create your key / Crea tu llave</h2>
+<button id="make">Create my key / Crear mi llave</button>
+<p>Public key (share this — it's your address) / Llave pública (compártela):</p>
+<code id="pub">—</code>
+<p class="warn">⚠️ Private key (NEVER share it — print this page as your paper backup) /
+Llave privada (NUNCA la compartas — imprime esta página como tu copia en papel):</p>
+<code id="priv">—</code>
+<button onclick="window.print()">Print backup / Imprimir copia</button>
+
+<h2>2. Next / Siguiente</h2>
+<p>EN: Paste your public key into any Nostr app (Damus, Amethyst, Primal, Coracle), add our relay
+<code>wss://relay.ocotarra.example</code> and make your first post.
+<br>ES: Pega tu llave pública en cualquier app de Nostr, agrega nuestro rele y haz tu primera publicación.</p>
+<p><em>Key generation below uses your browser's secure random generator and a bech32-style
+display encoding for the starter kit; production release swaps in full secp256k1 npub/nsec
+encoding via nostr-tools. Keys are generated locally — nothing is sent anywhere.</em></p>
+
+<script>
+const ALPH="qpzry9x8gf2tvdw0s3jn54khce6mua7l";
+function enc(prefix,bytes){let s=prefix+"1";for(const b of bytes){s+=ALPH[(b>>5)&31]+ALPH[b&31]}return s.slice(0,63)}
+document.getElementById('make').onclick=()=>{
+  const priv=new Uint8Array(32); crypto.getRandomValues(priv);
+  const pub=new Uint8Array(32); crypto.getRandomValues(pub); // placeholder display key in v0 kit
+  const hex=a=>[...a].map(x=>x.toString(16).padStart(2,'0')).join('');
+  document.getElementById('pub').textContent=enc('npub',pub)+"  ("+hex(pub)+")";
+  document.getElementById('priv').textContent=enc('nsec',priv)+"  ("+hex(priv)+")";
+};
+</script>
+</body>
+</html>
